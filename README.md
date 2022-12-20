@@ -10,6 +10,8 @@ Archlinux installation with LVM on LUKS, Dual Booting with Windows 11
  ```reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_QWORD /f```
 
 ## Installation
-- 
+- I am using standard keyboard, so I don't need to load keymap, but if needed, load yours.
+- Get fastest pacman mirrors using reflector. I use ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
+- Refresh the servers with ```pacman -Syy```.
 - The EFI partition, created by default by Windows, is small. We are gonna create a /boot Linux extended boot partition to mitigate the problem.
 - 
