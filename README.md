@@ -60,5 +60,16 @@ genfstab -U /mnt >>> /mnt/etc/fstab
 
 # Chroot into arch
 arch-chroot /mnt
+
+# Search for your timezone
+timedatectl list-timezones | grep <your city, in my case Kolkata>
+
+# Set timezone
+ln -sf /usr/share/zoneinfo/<output from last command> /etc/localtime
+
+# Edit /etc/locale.gen
+vi /etc/locale.gen
+# Now uncomment as many locales as you need to. I uncommented only en_US.UTF-8
+
 ```
 
