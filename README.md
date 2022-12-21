@@ -39,4 +39,26 @@ Now since we have completed partitioning the disk, we are gonna start formatting
 - Now we need to open the encrypted partition. Type ```cryptsetup open <partition for LVM> cryptlvm```. You can choose any other name than ```cryptlvm```. Enter the passphrase.
 - Create a physical volume using ```pvcreate /dev/mapper/cryptlvm```. Switch ```cryptlvm``` with the name you chose earlier.
 - Now create a volume group using ```vgcreate vg /dev/mapper/cryptlvm```. You can choose other name than ```vg```.
-- 
+- Create a logical volume for swap. Type ```lvcreate -L 16G vg -n swap``` and hit Enter.
+- Type ```lvcreate -l 100%FREE vg -n root``` and hit Enter to create a logical volume for root that takes the entire remaining space.
+- Type ```mkfs.ext4 /dev/vg/root``` and hit Enter.
+- Type ```mkswap /dev/vg/swap``` and hit Enter for the swap partition.
+We have completed partitioning and formatting the disk.
+### Mounting the directories
+- Mount the root directory, using ```mount /dev/vg/root /mnt```.
+- Create efi and boot directory under ```/mnt```, using ```mkdir /mnt/efi``` and ```mkdir /mnt/boot```.
+- Type ```mount <partition for Microsoft EFI> /mnt/efi``` and hit Enter.
+- Type ```mount <partition for /boot XBOOTLDR> /mnt/boot``` and hit Enter.
+- Lastly, activate swap by running ```swapon /dev/vg/swap```.
+### Starting Actual Arch Installation
+```bash
+# Install required base packages
+pacstrap /mnt base linux linux-firmware vi intel-ucode lvm2.
+
+# Generate fstab file
+genfstab -U /mnt >>> /mnt/etc/fstab
+
+# Chroot into arch
+arch-chroot /mnt
+```
+
