@@ -26,10 +26,10 @@ I am going to connect to a wireless network, if it's different for you check oth
 - Again refresh the servers with ```pacman -Syy```.
 ### Disk setup and partitioning
 The EFI partition, created by default by Windows, is small. We are gonna create a ```/boot``` Linux extended boot partition to mitigate the problem. Also, I am creating a swap partition. Although I have 16GB RAM, I had use for a swap partition previously when compiling large OSS projects. The swap partition size will be 16GB too. If you feel it's excessive, you may reduce it, or may use a swapfile. I am also not creating separate ```/home``` partition, as I have all javascript, rust, haskell, go in my home folder, and there are large docker containers in my root folder. Though I am sure I will not run out of space, I have some difficulty deciding how much space to dedicate to each partition, so I am just not bothering to create unnecessary partitions and fragment my disk.
-- I am installing arch on SSD, so it is ```/dev/nvme0n1```. It may be different for you. Run ```cfdisk /dev/nvme0n1``` 
+- I am installing arch on SSD, so the disk is ```/dev/nvme0n1```. It may be different for you. Run ```cfdisk /dev/nvme0n1``` 
 - There should already be a ```/efi``` partition created by Windows. No need to create that. But we need a ```/boot``` partiton in that free space.
 - Move down to the free space previously created, select new to create a new partition, and type in 500M in Partition Size. A new partition of 500MiB will be created.
-- Now select the Type option to change the type of this partition. Move up/down to select the type as ```Linux Extended boot```. Verify that the Partition UUID dispalyed below is ```	BC13C2FF-59E6-4262-A352-B275FD6F7172```. This would be the ```/boot``` partition.
+- Now select the Type option to change the type of this partition. Move up/down to select the type as ```Linux Extended boot```. Verify that the Partition UUID dispalyed below is ```BC13C2FF-59E6-4262-A352-B275FD6F7172```. This would be the ```/boot``` partition.
 - Select the remaining free space, and hit enter for the Default Partition Size, as we are not gonna create any more partitions.
 - Again, select the Type option, to change the type to 'Linux LVM'. Check the Partition UUID shown below is ```E6D6D379-F507-44C2-A23C-238F2A3DF928```.
 - Select the Write option, hit Enter, type in yes, hit Enter. The partitions will now be written. Now select the Quit option to quit ```cfdisk```.
