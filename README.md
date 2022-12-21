@@ -25,6 +25,6 @@ I am going to connect to a wireless network, if it's different for you check oth
 - To get fastest pacman mirrors using reflector, run ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
 - Again refresh the servers with ```pacman -Syy```.
 ### Disk setup and partitioning
+The EFI partition, created by default by Windows, is small. We are gonna create a ```/boot``` Linux extended boot partition to mitigate the problem. Also, I am creating a swap partition. Although I have 16GB RAM, I had use for a swap partition previously when compiling large OSS projects. The swap partition size will be 16GB too. If you feel it's excessive, you may reduce it, or may use a swapfile. I am also not creating separate ```/home``` partition, as I have all javascript, rust, haskell, go in my home folder, and there are large docker containers in my root folder. Though I am sure I will not run out of space, I have some difficulty deciding how much space to dedicate to each partition, so I am just not bothering to create unnecessary partitions and fragment my disk.
 - I am installing arch on SSD, so it is ```/dev/nvme0n1```. It may be different for you.
-- The EFI partition, created by default by Windows, is small. We are gonna create a /boot Linux extended boot partition to mitigate the problem.
 - 
