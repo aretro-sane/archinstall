@@ -24,7 +24,7 @@ I am going to connect to a wireless network, if it's different for you check oth
 - Refresh the servers with ```pacman -Syy```.
 - To get fastest pacman mirrors using reflector, run ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
 - Again refresh the servers with ```pacman -Syy```.
-### Disk setup and partitioning
+### Partitioning and Formatting the disk
 The EFI partition, created by default by Windows, is small. We are gonna create a ```/boot``` Linux extended boot partition to mitigate the problem. Also, I am creating a swap partition. Although I have 16GB RAM, I had use for a swap partition previously when compiling large OSS projects. The swap partition size will be 16GB too. If you feel it's excessive, you may reduce it, or may use a swapfile. I am also not creating separate ```/home``` partition, as I have all javascript, rust, haskell, go in my home folder, and there are large docker containers in my root folder. Though I am sure I will not run out of space, I have some difficulty deciding how much space to dedicate to each partition, so I am just not bothering to create unnecessary partitions and fragment my disk.
 - I am installing arch on SSD, so the disk is ```/dev/nvme0n1```. It may be different for you. Run ```cfdisk /dev/nvme0n1``` 
 - There should already be a ```/efi``` partition created by Windows. No need to create that. But we need a ```/boot``` partiton in that free space.
@@ -33,3 +33,10 @@ The EFI partition, created by default by Windows, is small. We are gonna create 
 - Select the remaining free space, and hit enter for the Default Partition Size, as we are not gonna create any more partitions.
 - Again, select the Type option, to change the type to 'Linux LVM'. Check the Partition UUID shown below is ```E6D6D379-F507-44C2-A23C-238F2A3DF928```.
 - Select the Write option, hit Enter, type in yes, hit Enter. The partitions will now be written. Now select the Quit option to quit ```cfdisk```.
+Now since we have completed partitioning the disk, we are gonna start formatting the disk. Although we can use any filesystem for ```/boot``` as per archwiki, historically, only VFAT filesystem was recognized. So, to be safe, I am gonna format the ```/boot``` partition as a FAT32 filesystem.
+- Run ```mkfs.fat -F32 <partition for /boot>``` and hit Enter.
+- Type ```cryptsetup luksFormat <partition for LVM>```. Type in YES, and put in a password you will not forget :). Verify it, and then wait for some time.
+- Now we need to open the encrypted partition. Type ```cryptsetup open <partition for LVM> cryptlvm```. You can choose any other name than ```cryptlvm```. Enter the passphrase.
+- Create a physical volume using ```pvcreate /dev/mapper/cryptlvm```. Switch ```cryptlvm``` with the name you chose earlier.
+- Now create a volume group using ```vgcreate vg /dev/mapper/cryptlvm```. You can choose other name than ```vg```.
+- 
