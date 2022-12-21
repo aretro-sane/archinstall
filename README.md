@@ -17,10 +17,14 @@ I am going to connect to a wireless network, if it's different for you check oth
 - Type ```iwctl``` and hit enter.
 - In the new ```[iwd]``` prompt, find out the name of the wireless adaptor using ```device list```. Most probably there will be only one, named ```wlan0```.
 - To scan for network, run ```station wlan0 scan```. Now to get the list of all available networks, type ```station wlan0 get-networks``` and hit Enter.
-- To connect to a network from the list, type ```station wlan0 connect <name of the network you want to connect to>```.
-- 
-- Get fastest pacman mirrors using reflector. I use ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
+- To connect to a network from the list, run ```station wlan0 connect <name of the network you want to connect to>```. Then type in the password and hit Enter.
+- Now type ```exit``` to exit from the ```[iwd]``` prompt. You should be connected to the network, just ```ping``` and check.
+### Setting up Network synchronized time and pacman mirrors
+- Type ```timedatectl set-ntp true``` and hit enter.
 - Refresh the servers with ```pacman -Syy```.
-- Now we need to partition the disk. I am installing arch on SSD, so it is ```/dev/nvme0n1```. It may be different for you.
+- To get fastest pacman mirrors using reflector, run ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
+- Again refresh the servers with ```pacman -Syy```.
+### Disk setup and partitioning
+- I am installing arch on SSD, so it is ```/dev/nvme0n1```. It may be different for you.
 - The EFI partition, created by default by Windows, is small. We are gonna create a /boot Linux extended boot partition to mitigate the problem.
 - 
