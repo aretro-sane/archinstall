@@ -53,7 +53,7 @@ We have completed partitioning and formatting the disk.
 ### Starting Actual Arch Installation
 ```bash
 # Install required base packages
-pacstrap /mnt base linux linux-firmware vi intel-ucode lvm2.
+pacstrap /mnt base linux linux-firmware vi intel-ucode lvm2
 
 # Generate fstab file
 genfstab -U /mnt >>> /mnt/etc/fstab
@@ -61,15 +61,18 @@ genfstab -U /mnt >>> /mnt/etc/fstab
 # Chroot into arch
 arch-chroot /mnt
 
-# Search for your timezone
-timedatectl list-timezones | grep <your city, in my case Kolkata>
+# Search for your timezone, grep for your city, which in my case is Kolkata
+timedatectl list-timezones | grep Kolkata
 
 # Set timezone
 ln -sf /usr/share/zoneinfo/<output from last command> /etc/localtime
 
 # Edit /etc/locale.gen
 vi /etc/locale.gen
-# Now uncomment as many locales as you need to. I uncommented only en_US.UTF-8
+# Now uncomment as many locales as you need to. I uncommented only en_US.UTF-8. Type :wq to exit.
+
+# Generate the locale(s)
+locale-gen
 
 ```
 
