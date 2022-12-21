@@ -15,7 +15,9 @@ I am using standard keyboard, so I don't need to load keymap, but if needed, loa
 ### Connecting to the internet
 I am going to connect to a wireless network, if it's different for you check other methods.
 - Type ```iwctl``` and hit enter.
-- In the new ```[iwd]``` prompt, search for the name of the wireless adaptor using ```device list```.
+- In the new ```[iwd]``` prompt, find out the name of the wireless adaptor using ```device list```. Most probably there will be only one, named ```wlan0```.
+- To scan for network, run ```station wlan0 scan```. Now to get the list of all available networks, type ```station wlan0 get-networks``` and hit Enter.
+- To connect to a network from the list, type ```station wlan0 connect <name of the network you want to connect to>```.
 - 
 - Get fastest pacman mirrors using reflector. I use ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
 - Refresh the servers with ```pacman -Syy```.
