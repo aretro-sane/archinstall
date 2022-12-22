@@ -104,5 +104,6 @@ Now save and exit the file by typing ```:wq```.
 passwd
 # Enter your root passwd and confirm it.
 
-# Install additional
+# Install additional packages. You can install them during pacstrap too.
+pacman -S base-devel man-db man-pages texinfo 
 ```
