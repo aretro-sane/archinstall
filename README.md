@@ -107,5 +107,6 @@ passwd
 # Install additional packages. You can install them during pacstrap too.
 pacman -S man-db man-pages texinfo wget git base-devel openssh linux-headers xorg-server xorg-apps xf86-input-libinput \
 xdg-user-dirs r8168 ldns openbsd-netcat networkmanager iwd ufw dialog pipewire pipewire-alsa pipewire-jack pipewire-pulse \
-libpulse wireplumber gst-plugin-pipewire sof-firmware yay xdo bash-completion tlp reflector mesa libva-intel-driver intel-media-driver vulkan-intel
+libpulse wireplumber gst-plugin-pipewire sof-firmware yay xdo bash-completion tlp reflector mesa libva-intel-driver \ 
+bluez bluez-utils intel-media-driver vulkan-intel
 ```
