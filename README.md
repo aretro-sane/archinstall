@@ -82,7 +82,7 @@ vi /etc/locale.gen
 # Generate the locale(s)
 locale-gen
 
-# Configure locale.conf with locale >> /etc/locale.conf or just append it. In my case I just need to append en_US.UTF-8 to locale.conf.
+# Configure locale.conf with locale >> /etc/locale.conf or just append it. I need to append only en_US.UTF-8 to locale.conf.
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
 # If you have chosen a different keymap than me, then echo "KEYMAP=<keymap you chose>" >> /etc/vconsole.conf
@@ -99,3 +99,10 @@ vi /etc/hosts
 127.0.1.1    arch.localdomain    arch
 ```
 Now save and exit the file by typing ```:wq```.
+```bash
+# Now set the root password.
+passwd
+# Enter your root passwd and confirm it.
+
+# Install additional
+```
