@@ -12,6 +12,7 @@ Archlinux installation with LVM on LUKS, Dual Booting with Windows 11
 ## Installation
 ### Load desired keymap and set font size
 I am using standard keyboard, so I don't need to load keymap, but if needed, load yours using ```loadkeys```. Set font size if needed too, using ```setfont``` command.
+
 ### Connecting to the internet
 I am going to connect to a wireless network, if it's different for you check other methods.
 - Type ```iwctl``` and hit enter.
@@ -19,11 +20,13 @@ I am going to connect to a wireless network, if it's different for you check oth
 - To scan for network, run ```station wlan0 scan```. Now to get the list of all available networks, type ```station wlan0 get-networks``` and hit Enter.
 - To connect to a network from the list, run ```station wlan0 connect <name of the network you want to connect to>```. Then type in the password and hit Enter.
 - Now type ```exit``` to exit from the ```[iwd]``` prompt. You should be connected to the network, just ```ping``` and check.
+
 ### Setting up Network synchronized time and pacman mirrors
 - Type ```timedatectl set-ntp true``` and hit enter.
 - Refresh the servers with ```pacman -Syy```.
 - To get fastest pacman mirrors using reflector, run ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
 - Again refresh the servers with ```pacman -Syy```.
+
 ### Partitioning and Formatting the disk
 The EFI partition, created by default by Windows, is small. We are gonna create a ```/boot``` Linux extended boot partition to mitigate the problem. Also, I am creating a swap partition. Although I have 16GB RAM, I had use for a swap partition previously when compiling large OSS projects. The swap partition size will be 16GB too. If you feel it's excessive, you may reduce it, or may use a swapfile. I am also not creating separate ```/home``` partition, as I have all javascript, rust, haskell, go in my home folder, and there are large docker containers in my root folder. Though I am sure I will not run out of space, I have some difficulty deciding how much space to dedicate to each partition, so I am just not bothering to create unnecessary partitions and fragment my disk.
 - I am installing arch on SSD, so the disk is ```/dev/nvme0n1```. It may be different for you. Run ```cfdisk /dev/nvme0n1``` 
@@ -44,12 +47,14 @@ Now since we have completed partitioning the disk, we are gonna start formatting
 - Type ```mkfs.ext4 /dev/vg/root``` and hit Enter.
 - Type ```mkswap /dev/vg/swap``` and hit Enter for the swap partition.
 We have completed partitioning and formatting the disk.
+
 ### Mounting the directories
 - Mount the root directory, using ```mount /dev/vg/root /mnt```.
 - Create efi and boot directory under ```/mnt```, using ```mkdir /mnt/efi``` and ```mkdir /mnt/boot```.
 - Type ```mount <partition for Microsoft EFI> /mnt/efi``` and hit Enter.
 - Type ```mount <partition for /boot XBOOTLDR> /mnt/boot``` and hit Enter.
 - Lastly, activate swap by running ```swapon /dev/vg/swap```.
+
 ### Starting Actual Arch Installation
 ```bash
 # Install required base packages
@@ -67,6 +72,9 @@ timedatectl list-timezones | grep Kolkata
 # Set timezone
 ln -sf /usr/share/zoneinfo/<output from last command> /etc/localtime
 
+# Synchronize hardware and system clock
+hwclock --systohc
+
 # Edit /etc/locale.gen
 vi /etc/locale.gen
 # Now uncomment as many locales as you need to. I uncommented only en_US.UTF-8. Type :wq to exit.
@@ -74,5 +82,20 @@ vi /etc/locale.gen
 # Generate the locale(s)
 locale-gen
 
-```
+# Configure locale.conf with locale >> /etc/locale.conf or just append it. In my case I just need to append en_US.UTF-8 to locale.conf.
+echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
+# If you have chosen a different keymap than me, then echo "KEYMAP=<keymap you chose>" >> /etc/vconsole.conf
+
+# Append your hostname to /etc/hostname. I chose arch as hostname, you can choose any other.
+echo "arch" >> /etc/hostname
+
+# Edit your /etc/hosts file and add the following lines.
+vi /etc/hosts
+```
+```
+127.0.0.1    localhost
+::1          localhost
+127.0.1.1    arch.localdomain    arch
+```
+Now save and exit the file by typing ```:wq```.
