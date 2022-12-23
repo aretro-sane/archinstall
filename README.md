@@ -108,7 +108,7 @@ passwd
 pacman -S man-db man-pages texinfo wget git base-devel linux-headers xorg-server xorg-apps xf86-input-libinput \
 xdg-user-dirs ldns openbsd-netcat networkmanager iwd firewalld dialog pipewire pipewire-alsa pipewire-jack pipewire-pulse \
 libpulse wireplumber gst-plugin-pipewire sof-firmware yay xdo bash-completion tlp reflector mesa libva-intel-driver \ 
-bluez bluez-utils intel-media-driver vulkan-intel openssh
+intel-media-driver vulkan-intel bluez bluez-utils openssh
 
 # If there is problem with Realtek RTL8111/8168 adapter, install r8168, blacklist r8169
 # pacman -S r8168
@@ -125,7 +125,13 @@ Then type in the following and save and exit.
 wifi.backend=iwd
 ```
 ```
-# Start systemctl services
-systemctl start firewalld.service
-systemctl start NetworkManager.service
+# Enable systemctl services/timers
+systemctl enable firewalld.service
+systemctl enable NetworkManager.service
+systemctl enable firewalld.service
+systemctl enable tlp.service
+systemctl enable bluetooth.service
+systemctl enable sshd.service
+systemctl enable reflector.timer
+systemctl enable fstrim.timer
 ```
