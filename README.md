@@ -175,7 +175,7 @@ title Arch Linux Stable
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options cryptdevice=UUID=DEVICE-UUID:cryptlvm root=/dev/mapper/vg-root rw quiet
+options cryptdevice=UUID=DEVICE-UUID:cryptlvm nvme_load=YES root=/dev/mapper/vg-root resume=/dev/mapper/vg-swap rw quiet
 ```
 Replace DEVICE-UUID with the output of
 ```
