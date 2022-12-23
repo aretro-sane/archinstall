@@ -169,14 +169,15 @@ default arch-lts
 timeout 3
 editor 1
 ```
-Also, in the same way, you need to edit the ```/boot/loader/entries/arch.conf``` file. Replace DEVICE-UUID using
-```
-blkid --match-tag UUID -o value <partition for LVM>
-```
+Also, in the same way, you need to edit the ```/boot/loader/entries/arch.conf``` file.
 ```conf
 title Arch Linux Stable
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
 options cryptdevice=UUID=DEVICE-UUID:cryptlvm root=/dev/mapper/vg-root rw quiet
+```
+Replace DEVICE-UUID with the output of
+```
+blkid --match-tag UUID -o value <partition for LVM>
 ```
