@@ -171,7 +171,7 @@ editor 1
 ```
 Also, in the same way, you need to edit the ```/boot/loader/entries/arch.conf``` file.
 ```conf
-title Arch Linux Stable
+title Arch Linux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
