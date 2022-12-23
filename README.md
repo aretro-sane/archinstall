@@ -169,7 +169,10 @@ default arch-lts
 timeout 3
 editor 1
 ```
-Also, in the same way, you need to edit the /boot/loader/entries/arch.conf file.
+Also, in the same way, you need to edit the ```/boot/loader/entries/arch.conf``` file. Replace DEVICE-UUID using
+```
+blkid --match-tag UUID -o value <partition for LVM>
+```
 ```conf
 title Arch Linux Stable
 linux /vmlinuz-linux
