@@ -107,7 +107,7 @@ passwd
 # Install additional packages. You can install them during pacstrap too.
 pacman -S man-db man-pages texinfo wget git base-devel linux-headers xorg-server xorg-apps xf86-input-libinput \
 xdg-user-dirs ldns openbsd-netcat networkmanager iwd firewalld dialog pipewire pipewire-alsa pipewire-jack pipewire-pulse \
-libpulse wireplumber gst-plugin-pipewire sof-firmware yay xdo bash-completion tlp reflector mesa libva-intel-driver \ 
+libpulse wireplumber gst-plugin-pipewire sof-firmware xdo bash-completion tlp reflector mesa libva-intel-driver \ 
 intel-media-driver vulkan-intel bluez bluez-utils openssh
 
 # If there is problem with Realtek RTL8111/8168 adapter, install r8168, blacklist r8169
@@ -134,4 +134,46 @@ systemctl enable bluetooth.service
 systemctl enable sshd.service
 systemctl enable reflector.timer
 systemctl enable fstrim.timer
+
+# Edit the HOOKS part of /etc/mkinitcpio.conf
+vi /etc/mkinitcpio.conf
+```
+```
+HOOKS=(base udev modconf block autodetect encrypt lvm2 resume filesystems keyboard fsck)
+MODULES=(vmd)
+```
+If you have different keymap, add that hook too. Save and exit the file.
+```bash
+# Recreate initramfs with mkinitcpio.
+mkinitcpio -p linux
+
+# Add user. Give any username, in my case its aretro.
+useradd -m -g users -G wheel aretro
+
+# Change password of username as above.
+passwd aretro
+
+# Uncomment wheel in after running visudo. This is preferred for polkit to work.
+visudo
+# Uncomment the line %wheel ALL=(ALL) ALL
+
+# Now we need to install the bootloader. Sice we have different /efi and /boot, do
+bootctl --esp-path=/efi --boot-path=/boot install
+
+# Edit loader.conf.
+vi /boot/loader/loader.conf
+```
+Add the following to this file. The editor option can be changed to 0 later.
+```conf
+default arch-lts
+timeout 3
+editor 1
+```
+Also, in the same way, you need to edit the /boot/loader/entries/arch.conf file.
+```conf
+title Arch Linux Stable
+linux /vmlinuz-linux
+initrd /intel-ucode.img
+initrd /initramfs-linux.img
+options cryptdevice=UUID=DEVICE-UUID:cryptlvm root=/dev/mapper/vg-root rw quiet
 ```
