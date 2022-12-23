@@ -105,8 +105,27 @@ passwd
 # Enter your root passwd and confirm it.
 
 # Install additional packages. You can install them during pacstrap too.
-pacman -S man-db man-pages texinfo wget git base-devel openssh linux-headers xorg-server xorg-apps xf86-input-libinput \
-xdg-user-dirs r8168 ldns openbsd-netcat networkmanager iwd ufw dialog pipewire pipewire-alsa pipewire-jack pipewire-pulse \
+pacman -S man-db man-pages texinfo wget git base-devel linux-headers xorg-server xorg-apps xf86-input-libinput \
+xdg-user-dirs ldns openbsd-netcat networkmanager iwd firewalld dialog pipewire pipewire-alsa pipewire-jack pipewire-pulse \
 libpulse wireplumber gst-plugin-pipewire sof-firmware yay xdo bash-completion tlp reflector mesa libva-intel-driver \ 
-bluez bluez-utils intel-media-driver vulkan-intel
+bluez bluez-utils intel-media-driver vulkan-intel openssh
+
+# If there is problem with Realtek RTL8111/8168 adapter, install r8168, blacklist r8169
+# pacman -S r8168
+
+# If you need printer/scanner, install the following. Last one for hp printers.
+# pacman -S cups cups-pdf system-config-printer simple-scan hplip
+
+# Enable iwd backend for NetworkManager
+vi /etc/NetworkManager/conf.d/wifi_backend.conf
+```
+Then type in the following and save and exit.
+```conf
+[device]
+wifi.backend=iwd
+```
+```
+# Start systemctl services
+systemctl start firewalld.service
+systemctl start NetworkManager.service
 ```
