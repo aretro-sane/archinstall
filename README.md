@@ -165,8 +165,8 @@ vi /boot/loader/loader.conf
 ```
 Add the following to this file. The editor option can be changed to 0 later.
 ```conf
-default arch-lts
-timeout 3
+default arch
+timeout 4
 editor 1
 ```
 Also, in the same way, you need to edit the ```/boot/loader/entries/arch.conf``` file.
@@ -181,3 +181,4 @@ Replace DEVICE-UUID with the output of
 ```
 blkid --match-tag UUID -o value <partition for LVM>
 ```
+Type exit, umount -a and reboot. Proceed to next part only if everything is OK.
