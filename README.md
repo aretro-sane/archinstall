@@ -5,13 +5,16 @@ Archlinux installation with LVM on LUKS, Dual Booting with Windows 11
 - I am assuming Windows 11 was preinstalled, as is the case in most of todays laptops.
 - Disable Secure Boot and Fast Boot in BIOS.
 - Reserve some free space from Disk Management.
-- Download latest archlinux iso, prepare installation media using Rufus, with GPT option and dd option later on.
+- Download latest archlinux iso, prepare installation media using Rufus, with GPT option and ```dd``` option later on.
 - Paste the following to a Powershell terminal with Admin privilege to enable ntp in Windows:
  ```reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_QWORD /f```
 
 ## Installation
 ### Load desired keymap and set font size
 I am using standard keyboard, so I don't need to load keymap, but if needed, load yours using ```loadkeys```. Set font size if needed too, using ```setfont``` command.
+```bash
+setfont iso01-12x22.psfu.gz
+```
 
 ### Connecting to the internet
 I am going to connect to a wireless network, if it's different for you check other methods.
@@ -24,7 +27,7 @@ I am going to connect to a wireless network, if it's different for you check oth
 ### Setting up Network synchronized time and pacman mirrors
 - Type ```timedatectl set-ntp true``` and hit enter.
 - Refresh the servers with ```pacman -Syy```.
-- To get fastest pacman mirrors using reflector, run ```reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist```.
+- To get fastest pacman mirrors using reflector, run ```reflector --latest 5 --protocol https --sort rate --download-timeout 60 --save /etc/pacman.d/mirrorlist```.
 - Again refresh the servers with ```pacman -Syy```.
 
 ### Partitioning and Formatting the disk
@@ -57,11 +60,14 @@ We have completed partitioning and formatting the disk.
 
 ### Starting Actual Arch Installation
 ```bash
+# Update archlinux keyring
+pacman -Sy archlinux-keyring
+
 # Install required base packages
 pacstrap /mnt base linux linux-firmware vi intel-ucode lvm2
 
 # Generate fstab file
-genfstab -U /mnt >>> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 # Chroot into arch
 arch-chroot /mnt
@@ -69,8 +75,8 @@ arch-chroot /mnt
 # Search for your timezone, grep for your city, which in my case is Kolkata
 timedatectl list-timezones | grep Kolkata
 
-# Set timezone
-ln -sf /usr/share/zoneinfo/<output from last command> /etc/localtime
+# Set timezone. In my case it is Asia/Kolkata, yours would be different.
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 
 # Synchronize hardware and system clock
 hwclock --systohc
@@ -105,10 +111,10 @@ passwd
 # Enter your root passwd and confirm it.
 
 # Install additional packages. You can install them during pacstrap too.
-pacman -S man-db man-pages texinfo wget git base-devel linux-headers xorg-server xorg-apps xf86-input-libinput \
+pacman -S --needed man-db man-pages texinfo wget git base-devel linux-headers xorg-server xorg-apps xf86-input-libinput \
 xdg-user-dirs ldns openbsd-netcat networkmanager iwd firewalld dialog pipewire pipewire-alsa pipewire-jack pipewire-pulse \
 libpulse wireplumber gst-plugin-pipewire sof-firmware xdo bash-completion tlp reflector mesa libva-intel-driver \ 
-intel-media-driver vulkan-intel bluez bluez-utils openssh
+intel-media-driver vulkan-intel bluez bluez-utils openssh polkit
 
 # If there is problem with Realtek RTL8111/8168 adapter, install r8168, blacklist r8169
 # pacman -S r8168
@@ -180,4 +186,4 @@ If NVME is not detected, edit systemd-boot menu and add nvme_load=YES. Later add
 ```
 blkid --match-tag UUID -o value <partition for LVM>
 ```
-Type exit, umount -a and reboot. Proceed to next part only if everything is OK.
+Type exit, umount -a and reboot. In BIOS change Boot Priorities. Proceed to next part only if everything is OK. 
