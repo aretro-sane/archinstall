@@ -140,9 +140,8 @@ vi /etc/mkinitcpio.conf
 ```
 ```
 HOOKS=(base udev modconf block autodetect encrypt lvm2 resume filesystems keyboard fsck)
-MODULES=(vmd)
 ```
-If you have different keymap, add that hook too. Save and exit the file.
+If you have different keymap, add that hook too. If you have VMD enabled, add ```vmd``` module to ```MODULES=(...)``` list. Save and exit the file.
 ```bash
 # Recreate initramfs with mkinitcpio.
 mkinitcpio -p linux
@@ -175,9 +174,9 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options cryptdevice=UUID=DEVICE-UUID:cryptlvm nvme_load=YES root=/dev/mapper/vg-root resume=/dev/mapper/vg-swap rw quiet
+options cryptdevice=UUID=DEVICE-UUID:cryptlvm root=/dev/mapper/vg-root resume=/dev/mapper/vg-swap rw quiet
 ```
-Replace DEVICE-UUID with the output of
+If NVME is not detected, edit systemd-boot menu and add nvme_load=YES. Later add it to options to make it permanent. Replace DEVICE-UUID with the output of
 ```
 blkid --match-tag UUID -o value <partition for LVM>
 ```
