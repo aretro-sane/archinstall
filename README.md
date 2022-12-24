@@ -145,7 +145,7 @@ systemctl enable fstrim.timer
 vi /etc/mkinitcpio.conf
 ```
 ```
-HOOKS=(base udev modconf block autodetect encrypt lvm2 resume filesystems keyboard fsck)
+HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 resume filesystems fsck)
 ```
 If you have different keymap, add that hook too. If you have VMD enabled, add ```vmd``` module to ```MODULES=(...)``` list. Save and exit the file.
 ```bash
