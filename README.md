@@ -132,7 +132,6 @@ wifi.backend=iwd
 ```
 ```
 # Enable systemctl services/timers
-systemctl enable firewalld.service
 systemctl enable NetworkManager.service
 systemctl enable firewalld.service
 systemctl enable tlp.service
@@ -185,5 +184,9 @@ options cryptdevice=UUID=DEVICE-UUID:cryptlvm root=/dev/mapper/vg-root resume=/d
 If NVME is not detected, edit systemd-boot menu and add nvme_load=YES. Later add it to options to make it permanent. Replace DEVICE-UUID with the output of
 ```
 blkid --match-tag UUID -o value <partition for LVM>
+```
+Now enable updating ```systemd-boot``` automatically.
+```bash
+systemctl enable systemd-boot-update.service
 ```
 Type exit, umount -a and reboot. In BIOS change Boot Priorities. Proceed to next part only if everything is OK. 
