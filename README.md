@@ -5,7 +5,7 @@ Archlinux installation with LVM on LUKS, Dual Booting with Windows 11
 - I am assuming Windows 11 was preinstalled, as is the case in most of todays laptops.
 - Disable Secure Boot and Fast Boot in BIOS.
 - Reserve some free space from Disk Management.
-- Download latest archlinux iso, prepare installation media using Rufus, with GPT.
+- Download latest archlinux iso, prepare installation media using Rufus, with GPT option and dd option later on.
 - Paste the following to a Powershell terminal with Admin privilege to enable ntp in Windows:
  ```reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /d 1 /t REG_QWORD /f```
 
