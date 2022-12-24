@@ -166,7 +166,7 @@ visudo
 bootctl --esp-path=/efi --boot-path=/boot install
 
 # Edit loader.conf.
-vi /boot/loader/loader.conf
+vi /efi/loader/loader.conf
 ```
 Add the following to this file. The editor option can be changed to 0 later.
 ```conf
