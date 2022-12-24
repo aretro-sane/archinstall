@@ -130,7 +130,7 @@ Then type in the following and save and exit.
 [device]
 wifi.backend=iwd
 ```
-```
+```bash
 # Enable systemctl services/timers
 systemctl enable NetworkManager.service
 systemctl enable firewalld.service
