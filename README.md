@@ -179,7 +179,7 @@ title Arch Linux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options cryptdevice=UUID=DEVICE-UUID:cryptlvm root=/dev/mapper/vg-root resume=/dev/mapper/vg-swap rw quiet
+options cryptdevice=UUID=device-UUID:cryptlvm root=/dev/mapper/vg-root resume=/dev/mapper/vg-swap rw quiet
 ```
 If NVME is not detected, edit systemd-boot menu and add nvme_load=YES. Later add it to options to make it permanent. Replace DEVICE-UUID with the output of
 ```
