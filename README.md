@@ -189,4 +189,4 @@ Now enable updating ```systemd-boot``` automatically.
 ```bash
 systemctl enable systemd-boot-update.service
 ```
-Type exit, umount -a and reboot. In BIOS change Boot Priorities. Proceed to next part only if everything is OK. 
+Type exit, umount -a and reboot. In BIOS change Boot Priorities, maybe turn on Fast Boot again. Proceed to next part only if everything is OK. 
